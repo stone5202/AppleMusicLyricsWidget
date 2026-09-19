@@ -19,6 +19,7 @@ struct LyricsTimelineProvider: TimelineProvider {
                     LyricLine(time: 4, text: "我的愛溢出就像雨水"),
                     LyricLine(time: 9, text: "窗台蝴蝶")
                 ],
+                plainLines: nil,
                 referenceDate: .now,
                 referencePlaybackTime: 0,
                 isPlaying: true,
@@ -65,7 +66,7 @@ struct LyricsWidgetView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
             if let track = entry.state.track {
-                Text(track.title)
+                Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)

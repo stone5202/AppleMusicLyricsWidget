@@ -17,6 +17,7 @@ struct TrackSnapshot: Codable, Hashable, Sendable {
 struct SharedLyricsState: Codable, Hashable, Sendable {
     let track: TrackSnapshot?
     let lines: [LyricLine]
+    let plainLines: [String]?
     let referenceDate: Date
     let referencePlaybackTime: TimeInterval
     let isPlaying: Bool
@@ -25,6 +26,7 @@ struct SharedLyricsState: Codable, Hashable, Sendable {
     static let empty = SharedLyricsState(
         track: nil,
         lines: [],
+        plainLines: nil,
         referenceDate: .now,
         referencePlaybackTime: 0,
         isPlaying: false,
@@ -42,6 +44,13 @@ struct SharedLyricsState: Codable, Hashable, Sendable {
     }
 
     func window(at date: Date) -> LyricsWindow {
+        if lines.isEmpty, let plainLines, !plainLines.isEmpty {
+            return LyricsWindow(
+                current: plainLines[0],
+                next: plainLines.dropFirst().first,
+                next2: plainLines.dropFirst(2).first
+            )
+        }
         guard let index = currentIndex(at: date), lines.indices.contains(index) else {
             return LyricsWindow(current: lines.first?.text ?? "等待同步歌詞…", next: lines.dropFirst().first?.text, next2: lines.dropFirst(2).first?.text)
         }

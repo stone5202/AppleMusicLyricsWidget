@@ -7,7 +7,8 @@ Apple Music companion app focused on a glanceable synchronized-lyrics widget for
 - Reads the current Apple Music track using `SystemMusicPlayer` / MusicKit.
 - Requests MusicKit authorization.
 - Fetches synchronized LRC lyrics from LRCLIB (replaceable through `LyricsProvider`).
-- Displays the current lyric at full opacity plus the next two lines at progressively lower opacity.
+- Shows plain lyrics without timed highlighting when LRCLIB has no synchronized version of a song.
+- Displays the current lyric plus five upcoming lines in the app; the widget shows the current lyric plus the next two lines.
 - Shares state between the app and Widget extension through an App Group.
 - Builds future WidgetKit timeline entries from the track's lyric timestamps.
 - `systemSmall` support for StandBy and CarPlay; `systemMedium` and Lock Screen rectangular widget included.
@@ -27,6 +28,10 @@ CarPlay uses the small system widget. WidgetKit controls refresh scheduling, so 
    - Register the same App Group used by both targets.
 5. Run the app on the iPhone and allow Apple Music access when prompted. Play a song in Apple Music.
 6. Add the `同步歌詞` small widget. On iOS 26 CarPlay, configure it in the CarPlay Widgets screen.
+
+### Personal Team testing
+
+The app and widget normally require an App Group entitlement to share lyric state. A Personal Team provisioning profile may reject this entitlement. To test the main app on your own iPhone, build with `CODE_SIGN_ENTITLEMENTS=` and your Personal Team selected; this test build can display lyrics in the app, but its widget cannot share them. Keep DerivedData outside an iCloud-synced Documents folder when code signing. For the full widget, use a provisioning profile that includes the registered App Group for both targets.
 
 ## Lyrics source
 

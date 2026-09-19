@@ -11,10 +11,12 @@ final class AppleMusicMonitor {
     private var monitorTask: Task<Void, Never>?
     private var lastEntryID: String?
     private var lastPersistedState: SharedLyricsState?
+    private var nextLyricsRetryAt = Date.distantPast
 
     var authorizationStatus = MusicAuthorization.currentStatus
     var track: TrackSnapshot?
     var lyrics: [LyricLine] = []
+    var plainLyrics: [String] = []
     var playbackTime: TimeInterval = 0
     var isPlaying = false
     var errorMessage: String?
@@ -52,8 +54,10 @@ final class AppleMusicMonitor {
 
         guard let entry else {
             lastEntryID = nil
+            nextLyricsRetryAt = .distantPast
             track = nil
             lyrics = []
+            plainLyrics = []
             currentWindow = LyricsWindow(current: "Apple Music 尚未播放", next: nil, next2: nil)
             await persist()
             return
@@ -62,16 +66,26 @@ final class AppleMusicMonitor {
         let snapshot = makeSnapshot(entry: entry)
         if entry.id != lastEntryID {
             lastEntryID = entry.id
-            track = snapshot
             lyrics = []
+            plainLyrics = []
             errorMessage = nil
+            nextLyricsRetryAt = .distantPast
+        }
+        track = snapshot
+
+        if lyrics.isEmpty, plainLyrics.isEmpty, Date.now >= nextLyricsRetryAt {
+            nextLyricsRetryAt = .distantFuture
             do {
-                lyrics = try await lyricsProvider.lyrics(for: snapshot)
+                let result = try await lyricsProvider.lyrics(for: snapshot)
+                lyrics = result.syncedLines
+                plainLyrics = result.plainLines
+                errorMessage = nil
             } catch {
                 errorMessage = error.localizedDescription
+                if shouldRetryLyrics(after: error) {
+                    nextLyricsRetryAt = .now.addingTimeInterval(30)
+                }
             }
-        } else {
-            track = snapshot
         }
 
         let state = makeState()
@@ -126,10 +140,21 @@ final class AppleMusicMonitor {
         return TrackSnapshot(entryID: entry.id, title: title, artist: artist, album: album, duration: duration)
     }
 
+    private func shouldRetryLyrics(after error: Error) -> Bool {
+        if let providerError = error as? LyricsProviderError {
+            if case .http(let code) = providerError {
+                return code == 429 || (500..<600).contains(code)
+            }
+            return false
+        }
+        return error is URLError
+    }
+
     private func makeState() -> SharedLyricsState {
         SharedLyricsState(
             track: track,
             lines: lyrics,
+            plainLines: plainLyrics.isEmpty ? nil : plainLyrics,
             referenceDate: .now,
             referencePlaybackTime: playbackTime,
             isPlaying: isPlaying,
@@ -142,6 +167,7 @@ final class AppleMusicMonitor {
         let previous = lastPersistedState
         let changed = previous?.track != snapshot.track
             || previous?.lines != snapshot.lines
+            || previous?.plainLines != snapshot.plainLines
             || previous?.isPlaying != snapshot.isPlaying
         let needsCorrection = previous.map { snapshot.updatedAt.timeIntervalSince($0.updatedAt) >= 60 } ?? true
         guard changed || needsCorrection else { return }
