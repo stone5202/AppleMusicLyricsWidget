@@ -1,6 +1,6 @@
 name: AppleMusicLyricsWidget
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.yuchen
   deploymentTarget:
     iOS: "26.0"
 settings:
@@ -20,13 +20,29 @@ targets:
       - path: Shared
     info:
       path: App/Info.plist
+      properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSAppleMusicUsageDescription: 用來讀取目前 Apple Music 播放歌曲並同步顯示歌詞。
+        NSSupportsLiveActivities: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+          - UIInterfaceOrientationPortraitUpsideDown
     entitlements:
       path: App/AppleMusicLyricsWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.yuchen.AppleMusicLyricsWidget
     dependencies:
       - target: LyricsWidgetExtension
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.AppleMusicLyricsWidget
+        PRODUCT_BUNDLE_IDENTIFIER: com.yuchen.AppleMusicLyricsWidget
         INFOPLIST_KEY_CFBundleDisplayName: Lyrics Widget
         TARGETED_DEVICE_FAMILY: "1,2"
 
@@ -38,11 +54,20 @@ targets:
       - path: Shared
     info:
       path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Lyrics Widget
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
     entitlements:
       path: Widget/LyricsWidgetExtension.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.yuchen.AppleMusicLyricsWidget
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.AppleMusicLyricsWidget.widget
+        PRODUCT_BUNDLE_IDENTIFIER: com.yuchen.AppleMusicLyricsWidget.widget
         SKIP_INSTALL: YES
         APPLICATION_EXTENSION_API_ONLY: YES
         TARGETED_DEVICE_FAMILY: "1,2"

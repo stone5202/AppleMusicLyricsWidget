@@ -27,14 +27,14 @@ struct LyricsTimelineProvider: TimelineProvider {
         )
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (LyricsTimelineEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping @Sendable (LyricsTimelineEntry) -> Void) {
         Task {
             let state = await SharedStateStore.shared.load()
             completion(LyricsTimelineEntry(date: .now, state: state))
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<LyricsTimelineEntry>) -> Void) {
+    func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<LyricsTimelineEntry>) -> Void) {
         Task {
             let state = await SharedStateStore.shared.load()
             let now = Date()

@@ -18,17 +18,15 @@ CarPlay uses the small system widget. WidgetKit controls refresh scheduling, so 
 
 ## Setup
 
-1. Install Xcode 26+ and XcodeGen (`brew install xcodegen`).
-2. Replace `com.example` in `project.yml` with your bundle ID prefix.
-3. Replace `group.com.example.AppleMusicLyricsWidget` in both entitlement files and `Shared/AppConstants.swift` with an App Group you own.
+1. Install Xcode 26+ and open `AppleMusicLyricsWidget.xcodeproj`. The project is already generated; XcodeGen is needed only after editing `project.yml` (`xcodegen generate`).
+2. The project currently uses `com.yuchen.AppleMusicLyricsWidget` and `group.com.yuchen.AppleMusicLyricsWidget`. If these identifiers are not available to your Apple Developer team, change them in `project.yml` and the App Group string in `Shared/AppConstants.swift`, then regenerate the project.
+3. In Xcode, select your Development Team for both the app and widget targets. Connect an iPhone running iOS 26+ and select it as the run destination.
 4. In Apple Developer Certificates, Identifiers & Profiles:
    - Enable MusicKit for the app identifier.
    - Enable App Groups for both app and widget identifiers.
-   - Register the same App Group used above.
-5. Run `xcodegen generate`.
-6. Open `AppleMusicLyricsWidget.xcodeproj` and select your Development Team.
-7. Run on a physical iPhone with Apple Music access.
-8. Add the `同步歌詞` small widget. On iOS 26 CarPlay, configure it in the CarPlay Widgets screen.
+   - Register the same App Group used by both targets.
+5. Run the app on the iPhone and allow Apple Music access when prompted. Play a song in Apple Music.
+6. Add the `同步歌詞` small widget. On iOS 26 CarPlay, configure it in the CarPlay Widgets screen.
 
 ## Lyrics source
 

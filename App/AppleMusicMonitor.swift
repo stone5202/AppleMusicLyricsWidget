@@ -1,5 +1,5 @@
 import Foundation
-import MusicKit
+@preconcurrency import MusicKit
 import Observation
 import WidgetKit
 
@@ -10,6 +10,7 @@ final class AppleMusicMonitor {
     private let lyricsProvider: any LyricsProvider
     private var monitorTask: Task<Void, Never>?
     private var lastEntryID: String?
+    private var lastPersistedState: SharedLyricsState?
 
     var authorizationStatus = MusicAuthorization.currentStatus
     var track: TrackSnapshot?
@@ -23,7 +24,7 @@ final class AppleMusicMonitor {
         self.lyricsProvider = lyricsProvider
     }
 
-    deinit { monitorTask?.cancel() }
+    isolated deinit { monitorTask?.cancel() }
 
     func start() {
         monitorTask?.cancel()
@@ -50,6 +51,7 @@ final class AppleMusicMonitor {
         isPlaying = playing
 
         guard let entry else {
+            lastEntryID = nil
             track = nil
             lyrics = []
             currentWindow = LyricsWindow(current: "Apple Music 尚未播放", next: nil, next2: nil)
@@ -137,7 +139,19 @@ final class AppleMusicMonitor {
 
     private func persist(_ state: SharedLyricsState? = nil) async {
         let snapshot = state ?? makeState()
-        try? await SharedStateStore.shared.save(snapshot)
-        WidgetCenter.shared.reloadTimelines(ofKind: AppConstants.widgetKind)
+        let previous = lastPersistedState
+        let changed = previous?.track != snapshot.track
+            || previous?.lines != snapshot.lines
+            || previous?.isPlaying != snapshot.isPlaying
+        let needsCorrection = previous.map { snapshot.updatedAt.timeIntervalSince($0.updatedAt) >= 60 } ?? true
+        guard changed || needsCorrection else { return }
+
+        do {
+            try await SharedStateStore.shared.save(snapshot)
+            lastPersistedState = snapshot
+            WidgetCenter.shared.reloadTimelines(ofKind: AppConstants.widgetKind)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }

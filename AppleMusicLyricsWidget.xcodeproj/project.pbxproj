@@ -1,0 +1,489 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A763C1B35A14CC45DD0E0DC /* LRCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */; };
+		2D2101F4E0D096C59ADA6E90 /* LyricsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		658CE36335A9ABDDA1DEB40F /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */; };
+		66C5CF1C30B616722D78DE0E /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25EDA26AAEC04160916915 /* LyricsProvider.swift */; };
+		8196360AF591900EB4188023 /* AppleMusicLyricsWidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */; };
+		9FEA4E9FB09B537132599998 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489541A99112FD20CC76354B /* LyricsWidget.swift */; };
+		C392748F289B54DB149C5C60 /* AppleMusicMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */; };
+		C75F7248E9902EFCF03495EE /* LRCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */; };
+		D10EB4B097E2ADE0FDA6EE8F /* SharedStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3534B6A878ADFCE03E16541E /* SharedStateStore.swift */; };
+		D198C98145D714FA75B184E1 /* LyricsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */; };
+		DE49126EE2AA2FE980E09697 /* LyricsWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680CF8DDD5C9520734E752EE /* LyricsWidgetBundle.swift */; };
+		E42C98BCEEA56A1845D2BB0C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1930900604BFE2B974BFDE83 /* Models.swift */; };
+		EA1D19B0F55DDFDA36C39E84 /* LyricsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */; };
+		EA3B10723813FE8DC949AAAB /* LyricsLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101DCD10492314D6553B34AE /* LyricsLiveActivity.swift */; };
+		EDD5E49080B6AF6BD172A04F /* SharedStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3534B6A878ADFCE03E16541E /* SharedStateStore.swift */; };
+		F502514353B9D6001BD5E03E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1930900604BFE2B974BFDE83 /* Models.swift */; };
+		F757EE3E70AC0DA2EFF6D3CA /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */; };
+		FAF3BBE49FA4D1DD47C5E4FF /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */; };
+		FE9E8B361A3E1D4CA8FFB1A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91909940931DE8408A7540 /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D5E9F33B0CBDCADC0A5D4F51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09DE157E3B875FD31A2A136E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DCD96BB1D94933137CB6F32;
+			remoteInfo = LyricsWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BA61742E660EE582950F2EEC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2D2101F4E0D096C59ADA6E90 /* LyricsWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		051F51E8F2B308D109931829 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0A31C18775462B89C55E32F6 /* AppleMusicLyricsWidget.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AppleMusicLyricsWidget.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		101DCD10492314D6553B34AE /* LyricsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsLiveActivity.swift; sourceTree = "<group>"; };
+		1930900604BFE2B974BFDE83 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		3534B6A878ADFCE03E16541E /* SharedStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStateStore.swift; sourceTree = "<group>"; };
+		489541A99112FD20CC76354B /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
+		680CF8DDD5C9520734E752EE /* LyricsWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidgetBundle.swift; sourceTree = "<group>"; };
+		6E91909940931DE8408A7540 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7D9B253434EF93AA31AD5E48 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicLyricsWidgetApp.swift; sourceTree = "<group>"; };
+		9104183ECD1C302F20615B24 /* LyricsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LyricsWidgetExtension.entitlements; sourceTree = "<group>"; };
+		9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LyricsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		BA25EDA26AAEC04160916915 /* LyricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsProvider.swift; sourceTree = "<group>"; };
+		C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsActivityAttributes.swift; sourceTree = "<group>"; };
+		C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRCParser.swift; sourceTree = "<group>"; };
+		CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		EECE642BB408A013FABF4C65 /* AppleMusicLyricsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppleMusicLyricsWidget.entitlements; sourceTree = "<group>"; };
+		FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicMonitor.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		40B7064C10C0DA871AC2EF30 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0A31C18775462B89C55E32F6 /* AppleMusicLyricsWidget.app */,
+				9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84374A87633D2A60BC1421B0 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EECE642BB408A013FABF4C65 /* AppleMusicLyricsWidget.entitlements */,
+				8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */,
+				FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */,
+				6E91909940931DE8408A7540 /* ContentView.swift */,
+				051F51E8F2B308D109931829 /* Info.plist */,
+				AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */,
+				BA25EDA26AAEC04160916915 /* LyricsProvider.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C4091CF93956E044D0795EED = {
+			isa = PBXGroup;
+			children = (
+				84374A87633D2A60BC1421B0 /* App */,
+				EC9EA74B75BBAF2B79C46C75 /* Shared */,
+				CEFE0AA0BD1C8809B8253735 /* Widget */,
+				40B7064C10C0DA871AC2EF30 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEFE0AA0BD1C8809B8253735 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				7D9B253434EF93AA31AD5E48 /* Info.plist */,
+				101DCD10492314D6553B34AE /* LyricsLiveActivity.swift */,
+				489541A99112FD20CC76354B /* LyricsWidget.swift */,
+				680CF8DDD5C9520734E752EE /* LyricsWidgetBundle.swift */,
+				9104183ECD1C302F20615B24 /* LyricsWidgetExtension.entitlements */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		EC9EA74B75BBAF2B79C46C75 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */,
+				C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */,
+				C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */,
+				1930900604BFE2B974BFDE83 /* Models.swift */,
+				3534B6A878ADFCE03E16541E /* SharedStateStore.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9DCD96BB1D94933137CB6F32 /* LyricsWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A2A5AF6C247C65C17D98D11 /* Build configuration list for PBXNativeTarget "LyricsWidgetExtension" */;
+			buildPhases = (
+				8B82731E2C33B466BA7C68A5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LyricsWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = LyricsWidgetExtension;
+			productReference = 9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		FCC044FECB94B8AE28D04E20 /* AppleMusicLyricsWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31D8F916A28533D26DB0F5D7 /* Build configuration list for PBXNativeTarget "AppleMusicLyricsWidget" */;
+			buildPhases = (
+				90A9D9852FC1F02E622CB6D2 /* Sources */,
+				BA61742E660EE582950F2EEC /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE9490542E1A45F13F2AF1D3 /* PBXTargetDependency */,
+			);
+			name = AppleMusicLyricsWidget;
+			packageProductDependencies = (
+			);
+			productName = AppleMusicLyricsWidget;
+			productReference = 0A31C18775462B89C55E32F6 /* AppleMusicLyricsWidget.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		09DE157E3B875FD31A2A136E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					9DCD96BB1D94933137CB6F32 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					FCC044FECB94B8AE28D04E20 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = E1D0B2D1DCA82BC6E8531D6F /* Build configuration list for PBXProject "AppleMusicLyricsWidget" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C4091CF93956E044D0795EED;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 40B7064C10C0DA871AC2EF30 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FCC044FECB94B8AE28D04E20 /* AppleMusicLyricsWidget */,
+				9DCD96BB1D94933137CB6F32 /* LyricsWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B82731E2C33B466BA7C68A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAF3BBE49FA4D1DD47C5E4FF /* AppConstants.swift in Sources */,
+				C75F7248E9902EFCF03495EE /* LRCParser.swift in Sources */,
+				EA1D19B0F55DDFDA36C39E84 /* LyricsActivityAttributes.swift in Sources */,
+				EA3B10723813FE8DC949AAAB /* LyricsLiveActivity.swift in Sources */,
+				9FEA4E9FB09B537132599998 /* LyricsWidget.swift in Sources */,
+				DE49126EE2AA2FE980E09697 /* LyricsWidgetBundle.swift in Sources */,
+				E42C98BCEEA56A1845D2BB0C /* Models.swift in Sources */,
+				EDD5E49080B6AF6BD172A04F /* SharedStateStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A9D9852FC1F02E622CB6D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				658CE36335A9ABDDA1DEB40F /* AppConstants.swift in Sources */,
+				8196360AF591900EB4188023 /* AppleMusicLyricsWidgetApp.swift in Sources */,
+				C392748F289B54DB149C5C60 /* AppleMusicMonitor.swift in Sources */,
+				FE9E8B361A3E1D4CA8FFB1A6 /* ContentView.swift in Sources */,
+				1A763C1B35A14CC45DD0E0DC /* LRCParser.swift in Sources */,
+				F757EE3E70AC0DA2EFF6D3CA /* LiveActivityManager.swift in Sources */,
+				D198C98145D714FA75B184E1 /* LyricsActivityAttributes.swift in Sources */,
+				66C5CF1C30B616722D78DE0E /* LyricsProvider.swift in Sources */,
+				F502514353B9D6001BD5E03E /* Models.swift in Sources */,
+				D10EB4B097E2ADE0FDA6EE8F /* SharedStateStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE9490542E1A45F13F2AF1D3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9DCD96BB1D94933137CB6F32 /* LyricsWidgetExtension */;
+			targetProxy = D5E9F33B0CBDCADC0A5D4F51 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		091794C04E94A7B92A8DE4AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/AppleMusicLyricsWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Lyrics Widget";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuchen.AppleMusicLyricsWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0B3B3F8887599757014140B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		3FED73DA5ACD052C61A80264 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/LyricsWidgetExtension.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuchen.AppleMusicLyricsWidget.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4012B72AFE157C9BAF2DC199 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/LyricsWidgetExtension.entitlements;
+				INFOPLIST_FILE = Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuchen.AppleMusicLyricsWidget.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		45A6425E22D6077669CB4DD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		F1ACE93F00080FE0AAE163DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/AppleMusicLyricsWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Lyrics Widget";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yuchen.AppleMusicLyricsWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31D8F916A28533D26DB0F5D7 /* Build configuration list for PBXNativeTarget "AppleMusicLyricsWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				091794C04E94A7B92A8DE4AC /* Debug */,
+				F1ACE93F00080FE0AAE163DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4A2A5AF6C247C65C17D98D11 /* Build configuration list for PBXNativeTarget "LyricsWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FED73DA5ACD052C61A80264 /* Debug */,
+				4012B72AFE157C9BAF2DC199 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E1D0B2D1DCA82BC6E8531D6F /* Build configuration list for PBXProject "AppleMusicLyricsWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				45A6425E22D6077669CB4DD6 /* Debug */,
+				0B3B3F8887599757014140B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 09DE157E3B875FD31A2A136E /* Project object */;
+}
