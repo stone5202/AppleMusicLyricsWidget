@@ -1,0 +1,48 @@
+name: AppleMusicLyricsWidget
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 1
+    MARKETING_VERSION: 0.1.0
+
+targets:
+  AppleMusicLyricsWidget:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Shared
+    info:
+      path: App/Info.plist
+    entitlements:
+      path: App/AppleMusicLyricsWidget.entitlements
+    dependencies:
+      - target: LyricsWidgetExtension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.AppleMusicLyricsWidget
+        INFOPLIST_KEY_CFBundleDisplayName: Lyrics Widget
+        TARGETED_DEVICE_FAMILY: "1,2"
+
+  LyricsWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+      - path: Shared
+    info:
+      path: Widget/Info.plist
+    entitlements:
+      path: Widget/LyricsWidgetExtension.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.AppleMusicLyricsWidget.widget
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+        TARGETED_DEVICE_FAMILY: "1,2"
