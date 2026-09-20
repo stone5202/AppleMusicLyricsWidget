@@ -24,7 +24,7 @@ final class AppleMusicMonitor {
     var errorMessage: String?
     var currentWindow = LyricsWindow(current: "開啟 Apple Music 播放歌曲", next: nil, next2: nil)
 
-    init(lyricsProvider: any LyricsProvider = LRCLibLyricsProvider()) {
+    init(lyricsProvider: any LyricsProvider = FallbackLyricsProvider()) {
         self.lyricsProvider = lyricsProvider
     }
 
@@ -91,7 +91,7 @@ final class AppleMusicMonitor {
         }
 
         let state = makeState()
-        currentWindow = state.window(at: .now)
+        currentWindow = state.window(at: .now, offset: lyricOffset)
         await LiveActivityManager.shared.update(track: track, window: currentWindow, isPlaying: isPlaying)
         await persist(state)
     }
@@ -122,7 +122,7 @@ final class AppleMusicMonitor {
         lyricOffset = adjusted
         UserDefaults.standard.set(adjusted, forKey: Self.lyricOffsetKey)
         let state = makeState()
-        currentWindow = state.window(at: .now)
+        currentWindow = state.window(at: .now, offset: lyricOffset)
         await LiveActivityManager.shared.update(track: track, window: currentWindow, isPlaying: isPlaying)
         await persist(state, force: true)
     }
@@ -169,7 +169,7 @@ final class AppleMusicMonitor {
             lines: lyrics,
             plainLines: plainLyrics.isEmpty ? nil : plainLyrics,
             referenceDate: .now,
-            referencePlaybackTime: max(0, playbackTime + lyricOffset),
+            referencePlaybackTime: playbackTime,
             isPlaying: isPlaying,
             updatedAt: .now
         )

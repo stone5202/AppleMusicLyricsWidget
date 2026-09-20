@@ -38,12 +38,12 @@ struct SharedLyricsState: Codable, Hashable, Sendable {
         return max(0, referencePlaybackTime + date.timeIntervalSince(referenceDate))
     }
 
-    func currentIndex(at date: Date) -> Int? {
-        let t = playbackTime(at: date)
+    func currentIndex(at date: Date, offset: TimeInterval = 0) -> Int? {
+        let t = max(0, playbackTime(at: date) + offset)
         return lines.lastIndex(where: { $0.time <= t })
     }
 
-    func window(at date: Date) -> LyricsWindow {
+    func window(at date: Date, offset: TimeInterval = 0) -> LyricsWindow {
         if lines.isEmpty, let plainLines, !plainLines.isEmpty {
             return LyricsWindow(
                 current: plainLines[0],
@@ -51,7 +51,7 @@ struct SharedLyricsState: Codable, Hashable, Sendable {
                 next2: plainLines.dropFirst(2).first
             )
         }
-        guard let index = currentIndex(at: date), lines.indices.contains(index) else {
+        guard let index = currentIndex(at: date, offset: offset), lines.indices.contains(index) else {
             return LyricsWindow(current: lines.first?.text ?? "等待同步歌詞…", next: lines.dropFirst().first?.text, next2: lines.dropFirst(2).first?.text)
         }
         return LyricsWindow(

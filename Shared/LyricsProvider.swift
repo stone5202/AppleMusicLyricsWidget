@@ -9,6 +9,48 @@ struct LyricsResult: Sendable {
     let plainLines: [String]
 }
 
+struct FallbackLyricsProvider: LyricsProvider {
+    func lyrics(for track: TrackSnapshot) async throws -> LyricsResult {
+        do {
+            return try await LRCLibLyricsProvider().lyrics(for: track)
+        } catch {
+            let primaryError = error
+            do {
+                return try await LyricsOvhLyricsProvider().lyrics(for: track)
+            } catch {
+                throw primaryError
+            }
+        }
+    }
+}
+
+struct LyricsOvhLyricsProvider: LyricsProvider {
+    private struct Response: Decodable {
+        let lyrics: String
+    }
+
+    func lyrics(for track: TrackSnapshot) async throws -> LyricsResult {
+        guard !track.artist.isEmpty, !track.title.isEmpty,
+              let base = URL(string: "https://api.lyrics.ovh/v1") else {
+            throw LyricsProviderError.invalidURL
+        }
+        let url = base.appendingPathComponent(track.artist).appendingPathComponent(track.title)
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 12
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let http = response as? HTTPURLResponse else { throw LyricsProviderError.notFound }
+        guard (200..<300).contains(http.statusCode) else {
+            throw http.statusCode == 404 ? LyricsProviderError.notFound : LyricsProviderError.http(http.statusCode)
+        }
+        let lyrics = try JSONDecoder().decode(Response.self, from: data).lyrics
+        let lines = lyrics.components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        guard !lines.isEmpty else { throw LyricsProviderError.notFound }
+        return LyricsResult(syncedLines: [], plainLines: lines)
+    }
+}
+
 enum LyricsProviderError: Error, LocalizedError {
     case invalidURL
     case notFound

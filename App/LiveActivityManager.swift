@@ -30,7 +30,7 @@ final class LiveActivityManager {
         let state = makeState(track: track, window: window, isPlaying: isPlaying)
         activity = try Activity.request(
             attributes: attributes,
-            content: ActivityContent(state: state, staleDate: .now.addingTimeInterval(staleInterval)),
+            content: ActivityContent(state: state, staleDate: .now.addingTimeInterval(staleInterval), relevanceScore: 100),
             pushType: nil
         )
         lastState = state
@@ -55,7 +55,7 @@ final class LiveActivityManager {
         let state = makeState(track: track, window: window, isPlaying: isPlaying)
         let needsFreshness = (activity.content.staleDate ?? .distantPast) < .now.addingTimeInterval(15)
         guard state != lastState || needsFreshness else { return }
-        await activity.update(ActivityContent(state: state, staleDate: .now.addingTimeInterval(staleInterval)))
+        await activity.update(ActivityContent(state: state, staleDate: .now.addingTimeInterval(staleInterval), relevanceScore: 100))
         lastState = state
     }
 

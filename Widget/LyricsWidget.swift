@@ -1,15 +1,25 @@
 import SwiftUI
 import WidgetKit
+import AppIntents
 @preconcurrency import MusicKit
+
+struct LyricsWidgetConfiguration: WidgetConfigurationIntent {
+    static let title: LocalizedStringResource = "歌詞時間調整"
+    static let description = IntentDescription("小工具可使用獨立的歌詞時間偏移。正數提早，負數延後。")
+
+    @Parameter(title: "小工具提早秒數", default: 1.0)
+    var advanceSeconds: Double
+}
 
 struct LyricsTimelineEntry: TimelineEntry {
     let date: Date
     let state: SharedLyricsState
+    let advanceSeconds: TimeInterval
 
-    var window: LyricsWindow { state.window(at: date) }
+    var window: LyricsWindow { state.window(at: date, offset: advanceSeconds) }
 }
 
-struct LyricsTimelineProvider: TimelineProvider {
+struct LyricsTimelineProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> LyricsTimelineEntry {
         LyricsTimelineEntry(
             date: .now,
@@ -25,49 +35,61 @@ struct LyricsTimelineProvider: TimelineProvider {
                 referencePlaybackTime: 0,
                 isPlaying: true,
                 updatedAt: .now
-            )
+            ),
+            advanceSeconds: 1.0
         )
     }
 
-    func getSnapshot(in context: Context, completion: @escaping @Sendable (LyricsTimelineEntry) -> Void) {
-        Task {
-            let state = await Self.loadState()
-            completion(LyricsTimelineEntry(date: .now, state: state))
-        }
+    func snapshot(for configuration: LyricsWidgetConfiguration, in context: Context) async -> LyricsTimelineEntry {
+        let state = await Self.loadState()
+        return LyricsTimelineEntry(date: .now, state: state, advanceSeconds: Self.offset(for: configuration))
     }
 
-    func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<LyricsTimelineEntry>) -> Void) {
-        Task {
-            let state = await Self.loadState()
-            let now = Date()
-            var entries: [LyricsTimelineEntry] = [LyricsTimelineEntry(date: now, state: state)]
+    func timeline(for configuration: LyricsWidgetConfiguration, in context: Context) async -> Timeline<LyricsTimelineEntry> {
+        let state = await Self.loadState()
+        let now = Date()
+        let offset = Self.offset(for: configuration)
+        var entries: [LyricsTimelineEntry] = [LyricsTimelineEntry(date: now, state: state, advanceSeconds: offset)]
 
-            if state.isPlaying, !state.lines.isEmpty {
-                let currentTime = state.playbackTime(at: now)
-                let future = state.lines
-                    .filter { $0.time > currentTime + 0.05 }
-                    .prefix(200)
+        if state.isPlaying, !state.lines.isEmpty {
+            let currentTime = state.playbackTime(at: now) + offset
+            let future = state.lines
+                .filter { $0.time > currentTime + 0.05 }
+                .prefix(200)
 
-                for line in future {
-                    let date = now.addingTimeInterval(line.time - currentTime)
-                    entries.append(LyricsTimelineEntry(date: date, state: state))
-                }
+            for line in future {
+                let date = now.addingTimeInterval(line.time - currentTime)
+                entries.append(LyricsTimelineEntry(date: date, state: state, advanceSeconds: offset))
             }
-
-            let reload = max(now.addingTimeInterval(300), (entries.last?.date ?? now).addingTimeInterval(30))
-            completion(Timeline(entries: entries, policy: .after(reload)))
         }
+
+        let reload = max(now.addingTimeInterval(300), (entries.last?.date ?? now).addingTimeInterval(30))
+        return Timeline(entries: entries, policy: .after(reload))
+    }
+
+    private static func offset(for configuration: LyricsWidgetConfiguration) -> TimeInterval {
+        min(10, max(-10, configuration.advanceSeconds))
     }
 
     @MainActor
     private static func loadState() async -> SharedLyricsState {
         let shared = await SharedStateStore.shared.load()
-        if shared.track != nil { return shared }
-
         let player = SystemMusicPlayer.shared
-        guard let entry = player.queue.currentEntry else { return .empty }
+        guard let entry = player.queue.currentEntry else { return shared }
         let snapshot = makeSnapshot(entry: entry, player: player)
-        let result = try? await LRCLibLyricsProvider().lyrics(for: snapshot)
+        if shared.track?.entryID == entry.id,
+           !shared.lines.isEmpty || shared.plainLines?.isEmpty == false {
+            return SharedLyricsState(
+                track: snapshot,
+                lines: shared.lines,
+                plainLines: shared.plainLines,
+                referenceDate: .now,
+                referencePlaybackTime: max(0, player.playbackTime),
+                isPlaying: player.state.playbackStatus == .playing,
+                updatedAt: .now
+            )
+        }
+        let result = try? await FallbackLyricsProvider().lyrics(for: snapshot)
         guard player.queue.currentEntry?.id == entry.id else { return .empty }
 
         return SharedLyricsState(
@@ -116,18 +138,25 @@ struct LyricsWidgetView: View {
     var body: some View {
         Group {
             if family == .accessoryRectangular {
-                Text(entry.window.current)
-                    .font(.caption.weight(.semibold))
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.8)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                HStack(spacing: 3) {
+                    Text(entry.window.current)
+                        .font(.caption.weight(.semibold))
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    refreshButton
+                }
             } else {
                 VStack(alignment: .leading, spacing: 7) {
-                    if let track = entry.state.track {
-                        Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
+                    HStack(spacing: 4) {
+                        if let track = entry.state.track {
+                            Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                        }
+                        Spacer(minLength: 0)
+                        refreshButton
                     }
 
                     ViewThatFits(in: .vertical) {
@@ -142,6 +171,16 @@ struct LyricsWidgetView: View {
             }
         }
         .containerBackground(.fill.tertiary, for: .widget)
+    }
+
+    private var refreshButton: some View {
+        Button(intent: RefreshLyricsIntent()) {
+            Image(systemName: "arrow.clockwise")
+                .font(.caption.weight(.semibold))
+                .frame(width: 24, height: 24)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("重新整理歌詞")
     }
 
     @ViewBuilder
@@ -172,11 +211,11 @@ struct LyricsWidget: Widget {
     let kind = AppConstants.widgetKind
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: LyricsTimelineProvider()) { entry in
+        AppIntentConfiguration(kind: kind, intent: LyricsWidgetConfiguration.self, provider: LyricsTimelineProvider()) { entry in
             LyricsWidgetView(entry: entry)
         }
         .configurationDisplayName("同步歌詞")
-        .description("顯示目前 Apple Music 歌詞與接下來兩行。")
+        .description("顯示目前 Apple Music 歌詞與接下來兩行；可單獨調整顯示時間。")
         .supportedFamilies([.systemSmall, .systemMedium, .accessoryRectangular])
         .contentMarginsDisabled()
     }

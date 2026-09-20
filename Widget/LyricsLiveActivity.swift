@@ -57,7 +57,10 @@ struct LyricsLiveActivity: Widget {
                     .lineLimit(1)
                     .frame(maxWidth: 80)
             } minimal: {
-                Image(systemName: "music.note")
+                Text(context.isStale ? "…" : String(context.state.current.prefix(3)))
+                    .font(.system(size: 10, weight: .semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
         }
     }
