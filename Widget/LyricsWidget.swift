@@ -45,8 +45,8 @@ struct LyricsTimelineProvider: TimelineProvider {
             if state.isPlaying, !state.lines.isEmpty {
                 let currentTime = state.playbackTime(at: now)
                 let future = state.lines
-                    .filter { $0.time > currentTime + 0.05 && $0.time <= currentTime + 60 }
-                    .prefix(80)
+                    .filter { $0.time > currentTime + 0.05 }
+                    .prefix(200)
 
                 for line in future {
                     let date = now.addingTimeInterval(line.time - currentTime)
@@ -54,7 +54,8 @@ struct LyricsTimelineProvider: TimelineProvider {
                 }
             }
 
-            completion(Timeline(entries: entries, policy: .after(now.addingTimeInterval(45))))
+            let reload = max(now.addingTimeInterval(300), (entries.last?.date ?? now).addingTimeInterval(30))
+            completion(Timeline(entries: entries, policy: .after(reload)))
         }
     }
 
@@ -113,38 +114,57 @@ struct LyricsWidgetView: View {
     let entry: LyricsTimelineEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 7) {
-            if let track = entry.state.track {
-                Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
+        Group {
+            if family == .accessoryRectangular {
+                Text(entry.window.current)
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            } else {
+                VStack(alignment: .leading, spacing: 7) {
+                    if let track = entry.state.track {
+                        Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
 
+                    ViewThatFits(in: .vertical) {
+                        lyricRows(showNext: true, showNext2: true)
+                        lyricRows(showNext: true, showNext2: false)
+                        lyricRows(showNext: false, showNext2: false)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+        }
+        .containerBackground(.fill.tertiary, for: .widget)
+    }
+
+    @ViewBuilder
+    private func lyricRows(showNext: Bool, showNext2: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 7) {
             Text(entry.window.current)
                 .font(.headline.weight(.semibold))
-                .lineLimit(2)
-                .minimumScaleFactor(0.72)
+                .fixedSize(horizontal: false, vertical: true)
 
-            if let next = entry.window.next {
+            if showNext, let next = entry.window.next {
                 Text(next)
                     .font(.subheadline.weight(.medium))
                     .foregroundStyle(.primary.opacity(0.44))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.72)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
-            if let next2 = entry.window.next2 {
+            if showNext2, let next2 = entry.window.next2 {
                 Text(next2)
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.primary.opacity(0.22))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.72)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-
-            Spacer(minLength: 0)
         }
-        .containerBackground(.fill.tertiary, for: .widget)
     }
 }
 

@@ -8,8 +8,9 @@ Apple Music companion app focused on a glanceable synchronized-lyrics widget for
 - Requests MusicKit authorization.
 - Fetches synchronized LRC lyrics from LRCLIB (replaceable through `LyricsProvider`).
 - Shows plain lyrics without timed highlighting when LRCLIB has no synchronized version of a song.
-- Displays the current lyric plus five upcoming lines in the app; the widget shows the current lyric plus the next two lines.
-- Shares state between the app and Widget extension through an App Group.
+- Displays the current lyric plus five upcoming lines in the app. The widget wraps lyrics to fit its size and shows up to two upcoming lines when space allows.
+- Lets you advance or delay lyric display by up to 10 seconds in half-second steps; the setting is saved and also affects the Live Activity.
+- Shares state through an App Group when available. Without one, the widget reads the current song and fetches lyrics itself.
 - Builds future WidgetKit timeline entries from the track's lyric timestamps.
 - `systemSmall` support for StandBy and CarPlay; `systemMedium` and Lock Screen rectangular widget included.
 
@@ -31,7 +32,7 @@ CarPlay uses the small system widget. WidgetKit controls refresh scheduling, so 
 
 ### Personal Team testing
 
-The app and widget normally require an App Group entitlement to share lyric state. A Personal Team provisioning profile may reject this entitlement. To test the main app on your own iPhone, build with `CODE_SIGN_ENTITLEMENTS=` and your Personal Team selected; this test build can display lyrics in the app, but its widget cannot share them. Keep DerivedData outside an iCloud-synced Documents folder when code signing. For the full widget, use a provisioning profile that includes the registered App Group for both targets.
+The app and widget normally use an App Group to share lyric state. A Personal Team provisioning profile may reject this entitlement. To test on your own iPhone, build with `CODE_SIGN_ENTITLEMENTS=` and your Personal Team selected. The widget then fetches lyrics independently when it cannot read shared state. Keep DerivedData outside an iCloud-synced Documents folder when code signing.
 
 ## Lyrics source
 
@@ -39,11 +40,11 @@ This starter uses LRCLIB's public API and sends the required client identificati
 
 ## Repository structure
 
-- `App/` app, MusicKit monitor and LRCLIB provider
-- `Shared/` models, LRC parser and App Group state store
+- `App/` app and MusicKit monitor
+- `Shared/` models, LRC parser, LRCLIB provider and App Group state store
 - `Widget/` WidgetKit timeline provider and UI
 - `project.yml` XcodeGen project definition
 
 ## Live Activity
 
-The app also includes an ActivityKit Live Activity with Lock Screen, Dynamic Island, and CarPlay presentation. Start/end it from the app. Its content updates when the app receives execution time and the current lyric window changes.
+The app also includes an ActivityKit Live Activity with Lock Screen and Dynamic Island presentation. Start/end it from the app; the controls show whether it is active. It follows lyric timing adjustments and reconnects to an existing activity when the app reopens. iOS may suspend the app after locking, so lyric and track changes cannot be guaranteed in the background. The card marks its content stale after 45 seconds without an update.

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Bindable var monitor: AppleMusicMonitor
+    @State private var draftLyricOffset: Double = 0
+    @State private var liveActivityActive = false
 
     var body: some View {
         NavigationStack {
@@ -18,7 +20,7 @@ struct ContentView: View {
                     LyricsStackView(
                         lines: monitor.lyrics,
                         plainLines: monitor.plainLyrics,
-                        playbackTime: monitor.playbackTime,
+                        playbackTime: max(0, monitor.playbackTime + monitor.lyricOffset),
                         fallback: monitor.currentWindow.current
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,23 +48,70 @@ struct ContentView: View {
                     .buttonStyle(.plain)
                     .font(.title3)
 
-                    if let track = monitor.track {
+                    VStack(spacing: 10) {
                         HStack {
-                            Button("開始即時動態") {
-                                Task {
-                                    try? await LiveActivityManager.shared.start(
-                                        track: track,
-                                        window: monitor.currentWindow,
-                                        isPlaying: monitor.isPlaying
-                                    )
-                                }
+                            Text("歌詞時間調整")
+                                .font(.subheadline.weight(.semibold))
+                            Spacer()
+                            Text(offsetDescription)
+                                .font(.subheadline.monospacedDigit())
+                                .foregroundStyle(.secondary)
+                        }
+                        Slider(
+                            value: $draftLyricOffset,
+                            in: -10...10,
+                            step: 0.5,
+                            onEditingChanged: { isEditing in
+                                if !isEditing { applyOffset(draftLyricOffset) }
                             }
-                            .buttonStyle(.borderedProminent)
+                        )
+                        HStack {
+                            Button("延後 0.5 秒") { applyOffset(draftLyricOffset - 0.5) }
+                            Spacer()
+                            Button("重設") { applyOffset(0) }
+                            Spacer()
+                            Button("提早 0.5 秒") { applyOffset(draftLyricOffset + 0.5) }
+                        }
+                        .font(.caption)
+                        .buttonStyle(.plain)
+                    }
+                    .padding(.horizontal, 8)
 
-                            Button("結束") {
-                                Task { await LiveActivityManager.shared.end() }
+                    if let track = monitor.track {
+                        VStack(spacing: 8) {
+                            HStack {
+                                Button(liveActivityActive ? "即時動態已開啟" : "開始即時動態") {
+                                    Task {
+                                        do {
+                                            try await LiveActivityManager.shared.start(
+                                                track: track,
+                                                window: monitor.currentWindow,
+                                                isPlaying: monitor.isPlaying
+                                            )
+                                            liveActivityActive = LiveActivityManager.shared.isActive
+                                        } catch {
+                                            monitor.errorMessage = error.localizedDescription
+                                        }
+                                    }
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .disabled(liveActivityActive || (monitor.lyrics.isEmpty && monitor.plainLyrics.isEmpty))
+
+                                Button("結束即時動態") {
+                                    Task {
+                                        await LiveActivityManager.shared.end()
+                                        liveActivityActive = false
+                                    }
+                                }
+                                .buttonStyle(.bordered)
+                                .disabled(!liveActivityActive)
                             }
-                            .buttonStyle(.bordered)
+                            Text(liveActivityActive
+                                 ? "已顯示於鎖定畫面與動態島。App 進入背景後可能停止更新；重新開啟可恢復歌詞。"
+                                 : "開啟後會顯示於鎖定畫面與動態島。")
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.center)
                         }
                     }
 
@@ -77,6 +126,22 @@ struct ContentView: View {
             }
             .navigationTitle("Lyrics Widget")
         }
+        .onAppear {
+            draftLyricOffset = monitor.lyricOffset
+            liveActivityActive = LiveActivityManager.shared.isActive
+        }
+    }
+
+    private var offsetDescription: String {
+        if draftLyricOffset == 0 { return "原始時間" }
+        let direction = draftLyricOffset > 0 ? "提早" : "延後"
+        return "\(direction) \(String(format: "%.1f", abs(draftLyricOffset))) 秒"
+    }
+
+    private func applyOffset(_ offset: Double) {
+        let adjusted = min(10, max(-10, offset))
+        draftLyricOffset = adjusted
+        Task { await monitor.setLyricOffset(adjusted) }
     }
 }
 

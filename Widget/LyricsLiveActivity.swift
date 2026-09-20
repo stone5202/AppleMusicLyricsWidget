@@ -12,20 +12,14 @@ struct LyricsLiveActivity: Widget {
                         .font(.caption.weight(.semibold))
                         .lineLimit(1)
                 }
-                Text(context.state.current)
+                Text(context.isStale ? "開啟 App 更新歌詞" : context.state.current)
                     .font(.headline.weight(.semibold))
                     .lineLimit(2)
-                if let next = context.state.next {
+                if !context.isStale, let next = context.state.next {
                     Text(next)
                         .font(.subheadline)
                         .foregroundStyle(.primary.opacity(0.42))
-                        .lineLimit(1)
-                }
-                if let next2 = context.state.next2 {
-                    Text(next2)
-                        .font(.caption)
-                        .foregroundStyle(.primary.opacity(0.22))
-                        .lineLimit(1)
+                        .lineLimit(2)
                 }
             }
             .padding(.vertical, 4)
@@ -43,14 +37,14 @@ struct LyricsLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(context.state.current)
+                        Text(context.isStale ? "開啟 App 更新歌詞" : context.state.current)
                             .font(.headline)
-                            .lineLimit(1)
-                        if let next = context.state.next {
+                            .lineLimit(2)
+                        if !context.isStale, let next = context.state.next {
                             Text(next)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
-                                .lineLimit(1)
+                                .lineLimit(2)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -58,7 +52,7 @@ struct LyricsLiveActivity: Widget {
             } compactLeading: {
                 Image(systemName: "music.note")
             } compactTrailing: {
-                Text(context.state.current)
+                Text(context.isStale ? "需更新" : context.state.current)
                     .font(.caption2)
                     .lineLimit(1)
                     .frame(maxWidth: 80)

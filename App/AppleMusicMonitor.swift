@@ -6,6 +6,7 @@ import WidgetKit
 @MainActor
 @Observable
 final class AppleMusicMonitor {
+    private static let lyricOffsetKey = "lyrics.timing.offset.v1"
     private let player = SystemMusicPlayer.shared
     private let lyricsProvider: any LyricsProvider
     private var monitorTask: Task<Void, Never>?
@@ -18,6 +19,7 @@ final class AppleMusicMonitor {
     var lyrics: [LyricLine] = []
     var plainLyrics: [String] = []
     var playbackTime: TimeInterval = 0
+    var lyricOffset: TimeInterval = UserDefaults.standard.double(forKey: lyricOffsetKey)
     var isPlaying = false
     var errorMessage: String?
     var currentWindow = LyricsWindow(current: "開啟 Apple Music 播放歌曲", next: nil, next2: nil)
@@ -114,6 +116,17 @@ final class AppleMusicMonitor {
         catch { errorMessage = error.localizedDescription }
     }
 
+    func setLyricOffset(_ offset: TimeInterval) async {
+        let adjusted = min(10, max(-10, (offset * 2).rounded() / 2))
+        guard adjusted != lyricOffset else { return }
+        lyricOffset = adjusted
+        UserDefaults.standard.set(adjusted, forKey: Self.lyricOffsetKey)
+        let state = makeState()
+        currentWindow = state.window(at: .now)
+        await LiveActivityManager.shared.update(track: track, window: currentWindow, isPlaying: isPlaying)
+        await persist(state, force: true)
+    }
+
     private func makeSnapshot(entry: MusicPlayer.Queue.Entry) -> TrackSnapshot {
         var title = entry.title
         var artist = entry.subtitle ?? ""
@@ -156,13 +169,13 @@ final class AppleMusicMonitor {
             lines: lyrics,
             plainLines: plainLyrics.isEmpty ? nil : plainLyrics,
             referenceDate: .now,
-            referencePlaybackTime: playbackTime,
+            referencePlaybackTime: max(0, playbackTime + lyricOffset),
             isPlaying: isPlaying,
             updatedAt: .now
         )
     }
 
-    private func persist(_ state: SharedLyricsState? = nil) async {
+    private func persist(_ state: SharedLyricsState? = nil, force: Bool = false) async {
         let snapshot = state ?? makeState()
         let previous = lastPersistedState
         let changed = previous?.track != snapshot.track
@@ -170,7 +183,7 @@ final class AppleMusicMonitor {
             || previous?.plainLines != snapshot.plainLines
             || previous?.isPlaying != snapshot.isPlaying
         let needsCorrection = previous.map { snapshot.updatedAt.timeIntervalSince($0.updatedAt) >= 60 } ?? true
-        guard changed || needsCorrection else { return }
+        guard force || changed || needsCorrection else { return }
 
         do {
             try await SharedStateStore.shared.save(snapshot)
