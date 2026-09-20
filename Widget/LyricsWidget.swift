@@ -1,5 +1,6 @@
 import SwiftUI
 import WidgetKit
+@preconcurrency import MusicKit
 
 struct LyricsTimelineEntry: TimelineEntry {
     let date: Date
@@ -30,21 +31,21 @@ struct LyricsTimelineProvider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping @Sendable (LyricsTimelineEntry) -> Void) {
         Task {
-            let state = await SharedStateStore.shared.load()
+            let state = await Self.loadState()
             completion(LyricsTimelineEntry(date: .now, state: state))
         }
     }
 
     func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<LyricsTimelineEntry>) -> Void) {
         Task {
-            let state = await SharedStateStore.shared.load()
+            let state = await Self.loadState()
             let now = Date()
             var entries: [LyricsTimelineEntry] = [LyricsTimelineEntry(date: now, state: state)]
 
             if state.isPlaying, !state.lines.isEmpty {
                 let currentTime = state.playbackTime(at: now)
                 let future = state.lines
-                    .filter { $0.time > currentTime + 0.05 }
+                    .filter { $0.time > currentTime + 0.05 && $0.time <= currentTime + 60 }
                     .prefix(80)
 
                 for line in future {
@@ -53,9 +54,57 @@ struct LyricsTimelineProvider: TimelineProvider {
                 }
             }
 
-            let reload = entries.last?.date.addingTimeInterval(30) ?? now.addingTimeInterval(60)
-            completion(Timeline(entries: entries, policy: .after(reload)))
+            completion(Timeline(entries: entries, policy: .after(now.addingTimeInterval(45))))
         }
+    }
+
+    @MainActor
+    private static func loadState() async -> SharedLyricsState {
+        let shared = await SharedStateStore.shared.load()
+        if shared.track != nil { return shared }
+
+        let player = SystemMusicPlayer.shared
+        guard let entry = player.queue.currentEntry else { return .empty }
+        let snapshot = makeSnapshot(entry: entry, player: player)
+        let result = try? await LRCLibLyricsProvider().lyrics(for: snapshot)
+        guard player.queue.currentEntry?.id == entry.id else { return .empty }
+
+        return SharedLyricsState(
+            track: snapshot,
+            lines: result?.syncedLines ?? [],
+            plainLines: result?.plainLines,
+            referenceDate: .now,
+            referencePlaybackTime: max(0, player.playbackTime),
+            isPlaying: player.state.playbackStatus == .playing,
+            updatedAt: .now
+        )
+    }
+
+    @MainActor
+    private static func makeSnapshot(entry: MusicPlayer.Queue.Entry, player: SystemMusicPlayer) -> TrackSnapshot {
+        var title = entry.title
+        var artist = entry.subtitle ?? ""
+        var album = ""
+        var duration = max(player.playbackTime + 1, 1)
+
+        if let item = entry.item {
+            switch item {
+            case .song(let song):
+                title = song.title
+                artist = song.artistName
+                album = song.albumTitle ?? ""
+                duration = song.duration ?? duration
+            case .musicVideo(let video):
+                title = video.title
+                artist = video.artistName
+                album = video.albumTitle ?? ""
+                duration = video.duration ?? duration
+            @unknown default:
+                break
+            }
+        }
+
+        return TrackSnapshot(entryID: entry.id, title: title, artist: artist, album: album, duration: duration)
     }
 }
 

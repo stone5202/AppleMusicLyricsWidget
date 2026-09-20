@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1A763C1B35A14CC45DD0E0DC /* LRCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */; };
+		22E96E3644DE65540969BC62 /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398655E1403C48AC70CB0480 /* LyricsProvider.swift */; };
 		2D2101F4E0D096C59ADA6E90 /* LyricsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		658CE36335A9ABDDA1DEB40F /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */; };
-		66C5CF1C30B616722D78DE0E /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25EDA26AAEC04160916915 /* LyricsProvider.swift */; };
+		7F7E6A6F0E944BA2C979F68B /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398655E1403C48AC70CB0480 /* LyricsProvider.swift */; };
 		8196360AF591900EB4188023 /* AppleMusicLyricsWidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */; };
 		9FEA4E9FB09B537132599998 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489541A99112FD20CC76354B /* LyricsWidget.swift */; };
 		C392748F289B54DB149C5C60 /* AppleMusicMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */; };
@@ -58,6 +59,7 @@
 		101DCD10492314D6553B34AE /* LyricsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsLiveActivity.swift; sourceTree = "<group>"; };
 		1930900604BFE2B974BFDE83 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		3534B6A878ADFCE03E16541E /* SharedStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStateStore.swift; sourceTree = "<group>"; };
+		398655E1403C48AC70CB0480 /* LyricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsProvider.swift; sourceTree = "<group>"; };
 		489541A99112FD20CC76354B /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		680CF8DDD5C9520734E752EE /* LyricsWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidgetBundle.swift; sourceTree = "<group>"; };
 		6E91909940931DE8408A7540 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,7 +68,6 @@
 		9104183ECD1C302F20615B24 /* LyricsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LyricsWidgetExtension.entitlements; sourceTree = "<group>"; };
 		9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LyricsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
-		BA25EDA26AAEC04160916915 /* LyricsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsProvider.swift; sourceTree = "<group>"; };
 		C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsActivityAttributes.swift; sourceTree = "<group>"; };
 		C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRCParser.swift; sourceTree = "<group>"; };
 		CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
@@ -93,7 +94,6 @@
 				6E91909940931DE8408A7540 /* ContentView.swift */,
 				051F51E8F2B308D109931829 /* Info.plist */,
 				AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */,
-				BA25EDA26AAEC04160916915 /* LyricsProvider.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -126,6 +126,7 @@
 				CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */,
 				C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */,
 				C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */,
+				398655E1403C48AC70CB0480 /* LyricsProvider.swift */,
 				1930900604BFE2B974BFDE83 /* Models.swift */,
 				3534B6A878ADFCE03E16541E /* SharedStateStore.swift */,
 			);
@@ -219,6 +220,7 @@
 				C75F7248E9902EFCF03495EE /* LRCParser.swift in Sources */,
 				EA1D19B0F55DDFDA36C39E84 /* LyricsActivityAttributes.swift in Sources */,
 				EA3B10723813FE8DC949AAAB /* LyricsLiveActivity.swift in Sources */,
+				7F7E6A6F0E944BA2C979F68B /* LyricsProvider.swift in Sources */,
 				9FEA4E9FB09B537132599998 /* LyricsWidget.swift in Sources */,
 				DE49126EE2AA2FE980E09697 /* LyricsWidgetBundle.swift in Sources */,
 				E42C98BCEEA56A1845D2BB0C /* Models.swift in Sources */,
@@ -237,7 +239,7 @@
 				1A763C1B35A14CC45DD0E0DC /* LRCParser.swift in Sources */,
 				F757EE3E70AC0DA2EFF6D3CA /* LiveActivityManager.swift in Sources */,
 				D198C98145D714FA75B184E1 /* LyricsActivityAttributes.swift in Sources */,
-				66C5CF1C30B616722D78DE0E /* LyricsProvider.swift in Sources */,
+				22E96E3644DE65540969BC62 /* LyricsProvider.swift in Sources */,
 				F502514353B9D6001BD5E03E /* Models.swift in Sources */,
 				D10EB4B097E2ADE0FDA6EE8F /* SharedStateStore.swift in Sources */,
 			);
