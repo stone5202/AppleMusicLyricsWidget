@@ -143,20 +143,25 @@ struct LyricsWidgetView: View {
                         .font(.caption.weight(.semibold))
                         .lineLimit(2)
                         .minimumScaleFactor(0.8)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     refreshButton
                 }
             } else {
                 VStack(alignment: .leading, spacing: 7) {
-                    HStack(spacing: 4) {
+                    HStack(spacing: 5) {
+                        Image(systemName: entry.state.isPlaying ? "music.note" : "pause.fill")
+                            .font(.caption2.weight(.bold))
+                            .foregroundStyle(Theme.accent)
                         if let track = entry.state.track {
                             Text(track.title + (entry.state.plainLines?.isEmpty == false ? " · 未同步" : ""))
                                 .font(.caption.weight(.semibold))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(.white.opacity(0.62))
                                 .lineLimit(1)
                         }
                         Spacer(minLength: 0)
                         refreshButton
+                            .foregroundStyle(.white.opacity(0.5))
                     }
 
                     ViewThatFits(in: .vertical) {
@@ -166,11 +171,17 @@ struct LyricsWidgetView: View {
                     }
                     Spacer(minLength: 0)
                 }
-                .padding(12)
+                .padding(14)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
         }
-        .containerBackground(.fill.tertiary, for: .widget)
+        .containerBackground(for: .widget) {
+            if family == .accessoryRectangular {
+                Color.clear
+            } else {
+                Theme.widgetBackground
+            }
+        }
     }
 
     private var refreshButton: some View {
@@ -185,25 +196,30 @@ struct LyricsWidgetView: View {
 
     @ViewBuilder
     private func lyricRows(showNext: Bool, showNext2: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 7) {
+        VStack(alignment: .center, spacing: 7) {
             Text(entry.window.current)
-                .font(.headline.weight(.semibold))
+                .font(.headline.weight(.bold))
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
             if showNext, let next = entry.window.next {
                 Text(next)
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.primary.opacity(0.44))
+                    .foregroundStyle(.white.opacity(0.5))
+                    .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
             if showNext2, let next2 = entry.window.next2 {
                 Text(next2)
                     .font(.caption.weight(.medium))
-                    .foregroundStyle(.primary.opacity(0.22))
+                    .foregroundStyle(.white.opacity(0.28))
+                    .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

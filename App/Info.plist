@@ -20,6 +20,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>用來讀取目前 Apple Music 播放歌曲並同步顯示歌詞。</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>選擇「永遠」才能在背景更新動態島歌詞。位置不會被使用或儲存。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>僅用來讓 App 在背景持續更新動態島歌詞，不會使用或儲存你的位置。</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -27,6 +31,11 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>location</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UISupportedInterfaceOrientations</key>

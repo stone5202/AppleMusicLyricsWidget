@@ -25,6 +25,11 @@ targets:
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         NSAppleMusicUsageDescription: 用來讀取目前 Apple Music 播放歌曲並同步顯示歌詞。
         NSSupportsLiveActivities: true
+        UIBackgroundModes:
+          - audio
+          - location
+        NSLocationAlwaysAndWhenInUseUsageDescription: 選擇「永遠」才能在背景更新動態島歌詞。位置不會被使用或儲存。
+        NSLocationWhenInUseUsageDescription: 僅用來讓 App 在背景持續更新動態島歌詞，不會使用或儲存你的位置。
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
         UILaunchScreen: {}
@@ -44,6 +49,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.yuchen.AppleMusicLyricsWidget
         INFOPLIST_KEY_CFBundleDisplayName: Lyrics Widget
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
 
   LyricsWidgetExtension:

@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		1A763C1B35A14CC45DD0E0DC /* LRCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */; };
 		22E96E3644DE65540969BC62 /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398655E1403C48AC70CB0480 /* LyricsProvider.swift */; };
+		260C38C79F7CEC7B7B63DF8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEA83B4C35F8C72093D1D7EC /* Assets.xcassets */; };
 		2D2101F4E0D096C59ADA6E90 /* LyricsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3A6119C64D4BE534B2843970 /* RefreshLyricsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB779B5840CB899BD1337BDC /* RefreshLyricsIntent.swift */; };
+		516B41DF2F0DB69CCB4E1463 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8084F3A6653B7026EE30FF0 /* Theme.swift */; };
 		658CE36335A9ABDDA1DEB40F /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */; };
 		7F7E6A6F0E944BA2C979F68B /* LyricsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398655E1403C48AC70CB0480 /* LyricsProvider.swift */; };
 		8196360AF591900EB4188023 /* AppleMusicLyricsWidgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */; };
@@ -18,6 +20,7 @@
 		9FEA4E9FB09B537132599998 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489541A99112FD20CC76354B /* LyricsWidget.swift */; };
 		C392748F289B54DB149C5C60 /* AppleMusicMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */; };
 		C75F7248E9902EFCF03495EE /* LRCParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */; };
+		D0576280E531EAEE45C234E9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8084F3A6653B7026EE30FF0 /* Theme.swift */; };
 		D10EB4B097E2ADE0FDA6EE8F /* SharedStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3534B6A878ADFCE03E16541E /* SharedStateStore.swift */; };
 		D198C98145D714FA75B184E1 /* LyricsActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */; };
 		DE49126EE2AA2FE980E09697 /* LyricsWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680CF8DDD5C9520734E752EE /* LyricsWidgetBundle.swift */; };
@@ -70,11 +73,13 @@
 		9104183ECD1C302F20615B24 /* LyricsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LyricsWidgetExtension.entitlements; sourceTree = "<group>"; };
 		9CA5C9C7FCDF18DCE89BC0D6 /* LyricsWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LyricsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
+		B8084F3A6653B7026EE30FF0 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		C7DD8EE9E474F02326901AD6 /* LyricsActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsActivityAttributes.swift; sourceTree = "<group>"; };
 		C8E9E6B4BE30FD3245686D13 /* LRCParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRCParser.swift; sourceTree = "<group>"; };
 		CCC50B1A1D6B21EC4662FDA2 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		DB779B5840CB899BD1337BDC /* RefreshLyricsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshLyricsIntent.swift; sourceTree = "<group>"; };
 		EECE642BB408A013FABF4C65 /* AppleMusicLyricsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppleMusicLyricsWidget.entitlements; sourceTree = "<group>"; };
+		FEA83B4C35F8C72093D1D7EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +99,7 @@
 				EECE642BB408A013FABF4C65 /* AppleMusicLyricsWidget.entitlements */,
 				8757B22E522D4D356A1BD891 /* AppleMusicLyricsWidgetApp.swift */,
 				FFEE61E8D88083BEEA2C6454 /* AppleMusicMonitor.swift */,
+				FEA83B4C35F8C72093D1D7EC /* Assets.xcassets */,
 				6E91909940931DE8408A7540 /* ContentView.swift */,
 				051F51E8F2B308D109931829 /* Info.plist */,
 				AFD3C3FEE591BD28322DFAC6 /* LiveActivityManager.swift */,
@@ -133,6 +139,7 @@
 				1930900604BFE2B974BFDE83 /* Models.swift */,
 				DB779B5840CB899BD1337BDC /* RefreshLyricsIntent.swift */,
 				3534B6A878ADFCE03E16541E /* SharedStateStore.swift */,
+				B8084F3A6653B7026EE30FF0 /* Theme.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -162,6 +169,7 @@
 			buildConfigurationList = 31D8F916A28533D26DB0F5D7 /* Build configuration list for PBXNativeTarget "AppleMusicLyricsWidget" */;
 			buildPhases = (
 				90A9D9852FC1F02E622CB6D2 /* Sources */,
+				C9CC96CD49DF2B2022087D39 /* Resources */,
 				BA61742E660EE582950F2EEC /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -215,6 +223,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C9CC96CD49DF2B2022087D39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				260C38C79F7CEC7B7B63DF8C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8B82731E2C33B466BA7C68A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -230,6 +249,7 @@
 				E42C98BCEEA56A1845D2BB0C /* Models.swift in Sources */,
 				892E88898039634E5B6FF214 /* RefreshLyricsIntent.swift in Sources */,
 				EDD5E49080B6AF6BD172A04F /* SharedStateStore.swift in Sources */,
+				D0576280E531EAEE45C234E9 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +268,7 @@
 				F502514353B9D6001BD5E03E /* Models.swift in Sources */,
 				3A6119C64D4BE534B2843970 /* RefreshLyricsIntent.swift in Sources */,
 				D10EB4B097E2ADE0FDA6EE8F /* SharedStateStore.swift in Sources */,
+				516B41DF2F0DB69CCB4E1463 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,7 @@
 import Foundation
 @preconcurrency import MusicKit
 import Observation
+import UIKit
 import WidgetKit
 
 @MainActor
@@ -41,7 +42,7 @@ final class AppleMusicMonitor {
             }
             while !Task.isCancelled {
                 await refresh()
-                try? await Task.sleep(for: .milliseconds(500))
+                try? await Task.sleep(for: pollInterval())
             }
         }
     }
@@ -61,6 +62,7 @@ final class AppleMusicMonitor {
             lyrics = []
             plainLyrics = []
             currentWindow = LyricsWindow(current: "Apple Music 尚未播放", next: nil, next2: nil)
+            await LiveActivityManager.shared.update(track: nil, window: currentWindow, isPlaying: false)
             await persist()
             return
         }
@@ -151,6 +153,15 @@ final class AppleMusicMonitor {
         }
 
         return TrackSnapshot(entryID: entry.id, title: title, artist: artist, album: album, duration: duration)
+    }
+
+    // 背景時不需要更新畫面：睡到下一句歌詞才醒來，上限 2 秒用來偵測換歌、暫停與拖曳進度。
+    private func pollInterval() -> Duration {
+        guard UIApplication.shared.applicationState == .background else { return .milliseconds(500) }
+        guard isPlaying else { return .seconds(3) }
+        let time = playbackTime + lyricOffset
+        guard let next = lyrics.first(where: { $0.time > time }) else { return .seconds(2) }
+        return .milliseconds(Int(min(2, max(0.15, next.time - time + 0.05)) * 1000))
     }
 
     private func shouldRetryLyrics(after error: Error) -> Bool {
