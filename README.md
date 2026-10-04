@@ -1,8 +1,12 @@
 # AppleMusicLyricsWidget
 
+<p align="center">
+  <strong>繁體中文</strong> · <a href="README.en.md">English</a>
+</p>
+
 在 iPhone 的動態島、鎖定畫面與主畫面小工具上，同步顯示 Apple Music 正在播放歌曲的歌詞。
 
-目前版本：**1.0.0**（版本紀錄見 [CHANGELOG.md](CHANGELOG.md)）
+目前版本：**1.0.0**（版本紀錄見 [CHANGELOG.md](CHANGELOG.md)，另提供[英文版本](CHANGELOG.en.md)）
 
 ## 功能
 
