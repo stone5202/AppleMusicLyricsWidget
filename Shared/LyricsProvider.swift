@@ -344,7 +344,7 @@ struct LRCLibLyricsProvider: LyricsProvider {
 
     private func fetch(_ url: URL) async throws -> (Data, HTTPURLResponse) {
         var request = URLRequest(url: url)
-        request.setValue("AppleMusicLyricsWidget/0.1 (https://github.com/stone5202/AppleMusicLyricsWidget)", forHTTPHeaderField: "User-Agent")
+        request.setValue("AppleMusicLyricsWidget/1.0 (https://github.com/stone5202/AppleMusicLyricsWidget)", forHTTPHeaderField: "User-Agent")
         request.timeoutInterval = 15
 
         let (data, response) = try await URLSession.shared.data(for: request)
